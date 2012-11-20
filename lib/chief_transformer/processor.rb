@@ -16,6 +16,10 @@ class ChiefTransformer
               operator_for(operation).new(operation).process
 
               operation.mark_as_processed!
+            rescue Sequel::ValidationFailed => exception
+              ActiveSupport::Notifications.instrument("invalid_operation.chief_transformer", operation: operation,
+                                                                                             model: exception.model,
+                                                                                             errors: exception.errors)
             rescue Exception => exception
               ActiveSupport::Notifications.instrument("exception.chief_transformer", operation: operation,
                                                                                      exception: exception)

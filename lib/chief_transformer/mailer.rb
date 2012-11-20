@@ -13,5 +13,13 @@ class ChiefTransformer
 
       mail subject: '[error] Failed CHIEF transformation'
     end
+
+    def invalid_operation(operation, model, errors)
+      @operation = operation
+      @model = model
+      @errors = errors
+
+      mail subject: '[warn] Invalid CHIEF operation received'
+    end
   end
 end

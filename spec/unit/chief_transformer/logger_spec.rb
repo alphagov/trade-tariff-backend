@@ -85,4 +85,26 @@ describe ChiefTransformer::Logger do
       email.encoded.should =~ /failed to transform/
     end
   end
+
+  describe '#invalid_operation logging' do
+    let!(:tame)      { create :tame }
+    let(:model_stub) { stub }
+
+    before {
+      tame.expects(:mark_as_processed!).raises(Sequel::ValidationFailed.new(model_stub))
+
+      rescuing { ChiefTransformer::Processor.new([tame]).process }
+    }
+
+    it 'logs an error event' do
+      @logger.logged(:error).size.should eq 1
+      @logger.logged(:error).last.should =~ /Could not transform/i
+    end
+
+    it 'sends an error email to the administrator' do
+      ActionMailer::Base.deliveries.should_not be_empty
+      email = ActionMailer::Base.deliveries.last
+      email.encoded.should =~ /invalid CHIEF operation/
+    end
+  end
 end
