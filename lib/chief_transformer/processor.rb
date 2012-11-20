@@ -18,11 +18,14 @@ class ChiefTransformer
               operation.mark_as_processed!
             rescue Sequel::ValidationFailed => exception
               ActiveSupport::Notifications.instrument("invalid_operation.chief_transformer", operation: operation,
+                                                                                             exception: exception,
                                                                                              model: exception.model,
                                                                                              errors: exception.errors)
+
+              raise ChiefTransformer::TransformException.new("Could not transform: #{operation.inspect}. \n #{exception} \nBacktrace: \n#{exception.backtrace.join("\n")}", exception)
             rescue Exception => exception
-              ActiveSupport::Notifications.instrument("exception.chief_transformer", operation: operation,
-                                                                                     exception: exception)
+              ActiveSupport::Notifications.instrument("invalid_operation.chief_transformer", operation: operation,
+                                                                                             exception: exception)
 
               raise ChiefTransformer::TransformException.new("Could not transform: #{operation.inspect}. \n #{exception} \nBacktrace: \n#{exception.backtrace.join("\n")}", exception)
             end
