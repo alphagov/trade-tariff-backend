@@ -1555,6 +1555,7 @@ Sequel.migration do
     self[:schema_migrations].insert(:filename => "20121129094209_add_invalidated_columns_to_measures.rb")
     self[:schema_migrations].insert(:filename => "20121204130816_create_hidden_goods_nomenclatures.rb")
     self[:schema_migrations].insert(:filename => "20121204143748_add_hidden_commodities.rb")
+    self[:schema_migrations].insert(:filename => "20121204161217_rename_section_twenty_one.rb")
 
     create_table(:search_references) do
       primary_key :id, :type=>"int(11)"
