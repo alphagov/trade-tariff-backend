@@ -18,7 +18,7 @@ gem "strong_parameters"
 gem "builder"
 gem "jquery-rails", "1.0.19"
 gem "plek", "1.0.0"
-gem 'gds-sso', '3.0.0'
+gem 'gds-sso', '3.1.0'
 gem "railties"
 
 gem "unicorn", "~> 4.6.3"
@@ -29,6 +29,7 @@ gem "nokogiri", "1.5.4"
 gem "whenever", "0.7.3"
 gem "aws-ses", require: "aws/ses" # Needed by exception_notification
 gem "exception_notification"
+gem "seamless_database_pool", "1.0.14"
 
 group :assets do
   gem "bootstrap-sass"
