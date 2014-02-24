@@ -51,10 +51,10 @@ module TariffSynchronizer
       end
     end
 
-    def apply
+    def apply(importer = TaricImporter)
       if super
         instrument("apply_taric.tariff_synchronizer", filename: filename) do
-          TaricImporter.new(file_path, issue_date).import
+          importer.new(file_path, issue_date).import
 
           mark_as_applied
         end
