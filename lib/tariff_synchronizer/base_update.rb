@@ -91,8 +91,17 @@ module TariffSynchronizer
       File.join(TariffSynchronizer.root_path, self.class.update_type.to_s, filename)
     end
 
-    def apply
-      File.exists?(file_path) || instrument("not_found_on_file_system.tariff_synchronizer", path: file_path)
+    # Check if file exists and if it doesn't try redownloading it.
+    # This may be necessary when tariff runs in multiserver environment
+    # where one server downloads updates and another server tries to apply it
+    def apply(_)
+      File.exists?(file_path) || (
+        instrument("not_found_on_file_system.tariff_synchronizer", path: file_path)
+
+        self.class.download(issue_date)
+
+        File.exists?(file_path)
+      )
     end
 
     class << self

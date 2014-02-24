@@ -35,10 +35,10 @@ module TariffSynchronizer
       end
     end
 
-    def apply
+    def apply(importer = ChiefImporter)
       if super
         instrument("apply_chief.tariff_synchronizer", filename: filename) do
-          ChiefImporter.new(file_path, issue_date).import
+          importer.new(file_path, issue_date).import
 
           mark_as_applied
         end
