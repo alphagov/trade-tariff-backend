@@ -98,9 +98,7 @@ module TariffSynchronizer
       File.exists?(file_path) || (
         instrument("not_found_on_file_system.tariff_synchronizer", path: file_path)
 
-        self.class.download(issue_date)
-
-        File.exists?(file_path)
+        self.class.download(issue_date) || File.exists?(file_path)
       )
     end
 
