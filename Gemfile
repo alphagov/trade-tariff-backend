@@ -66,7 +66,3 @@ group :test do
   gem "webmock"
   gem "database_cleaner"
 end
-
-group :router do
-  gem "router-client", "3.0.1", :require => "router"
-end
