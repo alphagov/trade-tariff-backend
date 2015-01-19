@@ -10,6 +10,7 @@ services:
  - elasticsearch
  - redis-server
 script:
+ - RAILS_ENV=test bundle exec rake bundler:audit
  - RAILS_ENV=test bundle exec rake db:create
  - RAILS_ENV=test bundle exec rake db:migrate
  - RAILS_ENV=test bundle exec rake spec
