@@ -19,7 +19,7 @@ class MeasurePresenter
                                   m.goods_nomenclature_sid != @declarable.goods_nomenclature_sid }
     end
 
-    if @collection.select{|m| m.measure_type_id == 'VTS'}.any?
+    if @collection.select{|m| m.measure_type_id == 'VTS'}.size > 1
       @collection.delete_if { |m| m.measure_type_id == 'VTS' &&
                                   m.goods_nomenclature_sid != @declarable.goods_nomenclature_sid }
     end
